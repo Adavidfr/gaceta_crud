@@ -1,0 +1,5 @@
+ec\gaceta\service\OfficialService.class
+ec\gob\iepi\gaceta_crud\JAXRSConfiguration.class
+ec\gob\iepi\gaceta_crud\resources\JavaEE8Resource.class
+ec\gaceta\web\OfficialBean.class
+ec\gaceta\model\Official.class
