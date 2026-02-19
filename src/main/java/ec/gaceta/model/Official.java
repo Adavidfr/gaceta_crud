@@ -7,6 +7,9 @@ import java.util.Date;
 @Entity
 @Table(name = "officials")
 public class Official implements Serializable {
+    
+    public Official() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

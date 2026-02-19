@@ -35,6 +35,21 @@
             <artifactId>primefaces</artifactId>
             <version>10.0.0</version>
         </dependency>
+        
+        <!-- Source: https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.6.0</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.novell.ldap</groupId>            
+            <artifactId>jldap</artifactId>
+            <version>2009-10-07</version>
+        </dependency>
+            
     </dependencies>
 
     <build>
