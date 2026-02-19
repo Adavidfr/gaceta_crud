@@ -16,11 +16,9 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
-    <!-- opcional: para que la página inicial sea index.xhtml -->
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>login.xhtml</welcome-file>
     </welcome-file-list>
-    
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>saga</param-value>

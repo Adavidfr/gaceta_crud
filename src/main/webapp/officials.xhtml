@@ -26,16 +26,49 @@
             <!-- MENSAJES -->
             <p:growl id="growl" showDetail="true" life="3000"/>
 
-            <div style="display: flex; justify-content: space-between;  align-items: center; gap: 15px">
+            <div style="display:flex; flex-direction:column; gap:30px; margin-top: 20px; margin-bottom: 20px">
 
-                <!-- BOTÓN NUEVO -->
-                <p:commandButton value="Nuevo" icon="pi pi-plus"
-                                 actionListener="#{officialBean.nuevo}"
-                                 update=":frm:dlg"
-                                 oncomplete="PF('dlgW').show()"/>
+                <!-- LOGO  -->
+                <div style="display:flex; justify-content:flex-end;">
+                    <h:graphicImage name="logo.png"
+                                    library="images"
+                                    style="height:45px;" />
+                </div>
 
-                <h:graphicImage name="logo.png" library="images"
-                                style="height:40px;" />
+                <!-- USUARIO / LOGOUT -->
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+
+                    <!-- IZQUIERDA -->
+                    <p:commandButton value="Nuevo" icon="pi pi-plus"
+                                     actionListener="#{officialBean.nuevo}"
+                                     update=":frm:dlg"
+                                     oncomplete="PF('dlgW').show()"/>
+
+                    <!-- DERECHA -->
+                    <div style="display:flex; align-items:center; gap:15px;">
+
+                        <div class="ui-widget"
+                             style="display:flex; align-items:center; gap:8px;">
+
+
+                            <i class="pi pi-user" style="color:#555;"></i>
+
+                            <h:outputText value="Usuario:"
+                                          style="font-weight:bold; color:#555;" />
+
+                            <h:outputText value="#{sessionScope.usuarioLogueado}" />
+
+                        </div>
+
+                        <p:commandButton value="Cerrar sesión"
+                                         icon="pi pi-sign-out"
+                                         action="#{loginBean.logout}"
+                                         ajax="false"
+                                         styleClass="ui-button-secondary"/>
+
+                    </div>
+
+                </div>
 
             </div>
 
