@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Gaceta CRUD</title>
-        
+
         <h:outputStylesheet>
             .col-label {
             width: 20%;
@@ -26,11 +26,18 @@
             <!-- MENSAJES -->
             <p:growl id="growl" showDetail="true" life="3000"/>
 
-            <!-- BOTÓN NUEVO -->
-            <p:commandButton value="Nuevo" icon="pi pi-plus"
-                             actionListener="#{officialBean.nuevo}"
-                             update=":frm:dlg"
-                             oncomplete="PF('dlgW').show()"/>
+            <div style="display: flex; justify-content: space-between;  align-items: center; gap: 15px">
+
+                <!-- BOTÓN NUEVO -->
+                <p:commandButton value="Nuevo" icon="pi pi-plus"
+                                 actionListener="#{officialBean.nuevo}"
+                                 update=":frm:dlg"
+                                 oncomplete="PF('dlgW').show()"/>
+
+                <h:graphicImage name="logo.png" library="images"
+                                style="height:40px;" />
+
+            </div>
 
             <!-- TABLA -->
             <p:dataTable value="#{officialBean.list}" var="o"
@@ -53,11 +60,14 @@
                     <h:outputText value="#{o.applicationNumber}"/>
                 </p:column>
 
-                <p:column headerText="Denominación" style="width:400px">
+                <p:column headerText="Denominación" style="width:500px">
                     <h:outputText value="#{o.denomination}"/>
                 </p:column>
 
-                <p:column headerText="Acciones" style="width:250px">
+                <p:column headerText="Acciones" 
+                          style="width:200px"
+                          styleClass="acciones-col">
+
 
                     <!-- EDITAR -->
                     <p:commandButton value="Editar" icon="pi pi-pencil"
@@ -79,6 +89,8 @@
                                    icon="pi pi-exclamation-triangle"/>
 
                     </p:commandButton>
+
+
 
 
                 </p:column>
