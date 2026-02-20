@@ -18,12 +18,27 @@ public class OfficialService {
                 .getResultList();
     }
 
-    public void create(Official o) { em.persist(o); }
+    public void create(Official o) {
+        em.persist(o);
+    }
 
-    public Official update(Official o) { return em.merge(o); }
+    public Official update(Official o) {
+        return em.merge(o);
+    }
 
     public void delete(Long id) {
         Official o = em.find(Official.class, id);
-        if (o != null) em.remove(o);
+        if (o != null) {
+            em.remove(o);
+        }
+    }
+
+    public Integer findLastTabloidNumber() {
+        Integer max = em.createQuery(
+                "SELECT MAX(CAST(o.tabloid_number as integer)) FROM Official o",
+                Integer.class)
+                .getSingleResult();
+
+        return max != null ? max : 0;
     }
 }

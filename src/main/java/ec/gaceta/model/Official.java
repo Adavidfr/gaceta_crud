@@ -7,7 +7,7 @@ import java.util.Date;
 @Entity
 @Table(name = "officials")
 public class Official implements Serializable {
-    
+
     public Official() {
     }
 
@@ -15,7 +15,7 @@ public class Official implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="published_on")
+    @Column(name = "published_on")
     private String publishedOn;
 
     @Temporal(TemporalType.DATE)
@@ -24,14 +24,19 @@ public class Official implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String denomination;
 
-    @Column(name="application_number")
+    @Column(name = "application_number")
     private String applicationNumber;
+
+    @Column(name = "error")
+    private String error;
 
     @Column(columnDefinition = "TEXT")
     private String proper;
 
-    // ===== GETTERS Y SETTERS =====
+    @Column(name = "tabloid_number")
+    private String tabloid_number;
 
+    // ===== GETTERS Y SETTERS =====
     public Long getId() {
         return id;
     }
@@ -72,11 +77,27 @@ public class Official implements Serializable {
         this.applicationNumber = applicationNumber;
     }
 
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
     public String getProper() {
         return proper;
     }
 
     public void setProper(String proper) {
         this.proper = proper;
+    }
+    
+        public String getTabloid_number() {
+        return tabloid_number;
+    }
+
+    public void setTabloid_number(String tabloid_number) {
+        this.tabloid_number = tabloid_number;
     }
 }

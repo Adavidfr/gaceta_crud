@@ -16,6 +16,51 @@
             .col-input {
             width: 80%;
             }
+
+            .acciones-col {
+            text-align: center;
+            }
+
+            .ui-datatable table {
+            table-layout: fixed;
+            width: 100%;
+            }
+
+            .ui-datatable td {
+            word-wrap: break-word;
+            white-space: normal;
+            }
+
+            /* 🔹 Bloque enviar alineado correctamente */
+            .gaceta-envio {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            }
+
+            .gaceta-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.95rem;
+            }
+
+            /* 🔹 Quitar efecto de iluminación en TODOS los campos */
+            .ui-inputfield:focus,
+            .ui-inputtextarea:focus,
+            .ui-inputnumber input:focus,
+            .ui-datepicker input:focus,
+            input:focus,
+            textarea:focus {
+            box-shadow: none !important;
+            outline: none !important;
+            }
+
+            /* Quitar estilo que PrimeFaces agrega con ui-state-focus */
+            .ui-state-focus {
+            box-shadow: none !important;
+            }
+
+
         </h:outputStylesheet>
 
     </h:head>
@@ -23,33 +68,45 @@
     <h:body>
         <h:form id="frm">
 
-            <!-- MENSAJES -->
             <p:growl id="growl" showDetail="true" life="3000"/>
 
             <div style="display:flex; flex-direction:column; gap:30px; margin-top: 20px; margin-bottom: 20px">
 
-                <!-- LOGO  -->
                 <div style="display:flex; justify-content:flex-end;">
                     <h:graphicImage name="logo.png"
                                     library="images"
                                     style="height:45px;" />
                 </div>
 
-                <!-- USUARIO / LOGOUT -->
+                <!-- 🔹 BARRA SUPERIOR -->
                 <div style="display:flex; justify-content:space-between; align-items:center;">
 
                     <!-- IZQUIERDA -->
-                    <p:commandButton value="Nuevo" icon="pi pi-plus"
-                                     actionListener="#{officialBean.nuevo}"
-                                     update=":frm:dlg"
-                                     oncomplete="PF('dlgW').show()"/>
+                    <div class="gaceta-envio">
+
+                        <p:commandButton value="Nuevo" icon="pi pi-plus"
+                                         actionListener="#{officialBean.nuevo}"
+                                         update=":frm:dlg"
+                                         oncomplete="PF('dlgW').show()"/>
+
+                        <h:outputText value="Número boletín:"
+                                      style="font-weight:bold; color:#555;"/>
+
+                        <p:inputNumber value="#{officialBean.numeroInicial}"
+                                       styleClass="no-focus-effect"
+                                       style="width:110px"/>
+                        <p:commandButton value="Enviar"
+                                         icon="pi pi-send"
+                                         actionListener="#{officialBean.enviarGaceta}"
+                                         update=":frm"
+                                         styleClass="btn-enviar"/>
+                    </div>
 
                     <!-- DERECHA -->
                     <div style="display:flex; align-items:center; gap:15px;">
 
                         <div class="ui-widget"
                              style="display:flex; align-items:center; gap:8px;">
-
 
                             <i class="pi pi-user" style="color:#555;"></i>
 
@@ -77,45 +134,54 @@
                          paginator="true"
                          paginatorPosition="bottom"
                          rows="5"
+                         responsiveLayout="scroll"
+                         tableStyle="width:100%; table-layout:fixed;"
                          style="margin-top:10px">
 
-                <p:column headerText="Publicado" style="width:120px">
+                <p:column headerText="Gaceta No" style="width:7%">
                     <h:outputText value="#{o.publishedOn}"/>
                 </p:column>
 
-                <p:column headerText="Fecha" style="width:120px">
+                <p:column headerText="Fecha" style="width:8%">
                     <h:outputText value="#{o.date}">
                         <f:convertDateTime pattern="yyyy-MM-dd"/>
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Trámite" style="width:150px">
-                    <h:outputText value="#{o.applicationNumber}"/>
-                </p:column>
-
-                <p:column headerText="Denominación" style="width:500px">
+                <p:column headerText="Denominación" style="width:17%">
                     <h:outputText value="#{o.denomination}"/>
                 </p:column>
 
+                <p:column headerText="Trámite" style="width:17%">
+                    <h:outputText value="#{o.applicationNumber}"/>
+                </p:column>
+
+                <p:column headerText="Error" style="width:17%">
+                    <h:outputText value="#{o.error}"/>
+                </p:column>
+
+                <p:column headerText="Correcto" style="width:26%">
+                    <h:outputText value="#{o.proper}"/>
+                </p:column>
+
                 <p:column headerText="Acciones" 
-                          style="width:200px"
+                          style="width:8%"
                           styleClass="acciones-col">
 
-
-                    <!-- EDITAR -->
-                    <p:commandButton value="Editar" icon="pi pi-pencil"
+                    <p:commandButton icon="pi pi-pencil"
+                                     title="Editar"
                                      actionListener="#{officialBean.editar(o)}"
                                      update=":frm:dlg"
                                      oncomplete="PF('dlgW').show()"
-                                     style="margin-right:8px"/>
+                                     styleClass="ui-button-text"
+                                     style="margin-right:5px"/>
 
-                    <!-- ELIMINAR CON CONFIRMACIÓN -->
-                    <p:commandButton value="Eliminar" icon="pi pi-trash"
+                    <p:commandButton icon="pi pi-trash"
+                                     title="Eliminar"
                                      actionListener="#{officialBean.eliminar(o)}"
                                      process="@this"
                                      update=":frm:growl :frm"
-                                     styleClass="ui-button-danger"
-                                     style="margin-left:5px">
+                                     styleClass="ui-button-text ui-button-danger">
 
                         <p:confirm header="Confirmación"
                                    message="¿Estás seguro que deseas eliminar el trámite #{o.applicationNumber}?"
@@ -123,15 +189,11 @@
 
                     </p:commandButton>
 
-
-
-
                 </p:column>
 
             </p:dataTable>
 
-
-            <!-- CONFIRM DIALOG GLOBAL -->
+            <!-- CONFIRM DIALOG -->
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                 <p:commandButton value="Sí" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger"/>
@@ -139,8 +201,7 @@
                                  styleClass="ui-confirmdialog-no ui-button-secondary"/>
             </p:confirmDialog>
 
-
-            <!-- DIALOGO FORMULARIO -->
+            <!-- DIALOGO -->
             <p:dialog id="dlg" widgetVar="dlgW" header="Aviso Oficial"
                       modal="true" width="900">
 
@@ -149,7 +210,7 @@
                              styleClass="ui-fluid"
                              style="width:100%">
 
-                    <h:outputLabel value="Publicado:"/>
+                    <h:outputLabel value="Gaceta No:"/>
                     <p:inputText value="#{officialBean.form.publishedOn}"
                                  style="width:100%"/>
 
@@ -158,19 +219,25 @@
                                   pattern="yyyy-MM-dd"
                                   style="width:100%"/>
 
-                    <h:outputLabel value="Trámite:"/>
-                    <p:inputText value="#{officialBean.form.applicationNumber}"
-                                 style="width:100%"/>
-
                     <h:outputLabel value="Denominación:"/>
                     <p:inputTextarea value="#{officialBean.form.denomination}"
-                                     rows="4"
+                                     rows="1"
                                      autoResize="false"
                                      style="width:100%"/>
 
-                    <h:outputLabel value="Correcto:"/>
+                    <h:outputLabel value="No. de Trámite:"/>
+                    <p:inputText value="#{officialBean.form.applicationNumber}"
+                                 style="width:100%"/>
+
+                    <h:outputLabel value="Con error en:"/>
+                    <p:inputTextarea value="#{officialBean.form.error}"
+                                     rows="1"
+                                     autoResize="false"
+                                     style="width:100%"/>
+
+                    <h:outputLabel value="Lo correcto es:"/>
                     <p:inputTextarea value="#{officialBean.form.proper}"
-                                     rows="3"
+                                     rows="2"
                                      autoResize="false"
                                      style="width:100%"/>
 
